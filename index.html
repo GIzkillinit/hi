@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Compute Terminal Matrix</title>
+  <style>
+    /* Fullscreen dark viewport styling */
+    body, html { margin: 0; padding: 0; width: 100%; height: 100%; background: #08010f; font-family: 'Courier New', monospace; color: #00ffcc; overflow: hidden; display: flex; align-items: center; justify-content: center; }
+    .station-box { background: rgba(15, 3, 25, 0.95); border: 2px solid #ff0055; box-shadow: 0 0 25px #ff0055; padding: 35px; text-align: center; border-radius: 8px; width: 90%; max-width: 450px; }
+    h1 { color: #ff0055; margin-top: 0; text-shadow: 0 0 10px #ff0055; letter-spacing: 1px; }
+    input { width: 85%; padding: 12px; background: #020005; border: 1px solid #00ffcc; color: #00ffcc; text-align: center; font-family: inherit; font-size: 15px; margin-bottom: 20px; outline: none; box-shadow: 0 0 8px rgba(0, 255, 204, 0.2); }
+    button { padding: 12px 28px; background: transparent; border: 2px solid #ff0055; color: #ff0055; font-family: inherit; font-size: 16px; cursor: pointer; text-shadow: 0 0 5px #ff0055; transition: all 0.3s ease; }
+    button:hover { background: #ff0055; color: #08010f; box-shadow: 0 0 15px #ff0055; text-shadow: none; }
+  </style>
+
+  <!-- Pulling PeteZah Ultraviolet Core libraries directly from npm ecosystem via jsDelivr -->
+  <script src="https://jsdelivr.net"></script>
+</head>
+<body>
+
+  <div class="station-box">
+    <h1>TERMINAL//: ROUTE_SET</h1>
+    <p>Enter target domain node to initialize bypass channel:</p>
+    <input type="text" id="target-node" value="https://google.com">
+    <br>
+    <button onclick="bootConnection()">Initialize Bypass</button>
+  </div>
+
+  <script>
+    // Configured with your active working IPv4 addresses and port mappings
+    const nodeCluster = [
+      "YOUR_PROXY_IP_1:PORT",
+      "YOUR_PROXY_IP_2:PORT",
+      "YOUR_PROXY_IP_3:PORT"
+    ];
+
+    // Selects an operational node address randomly on execution initialization
+    const proxyGateway = nodeCluster[Math.floor(Math.random() * nodeCluster.length)];
+
+    function bootConnection() {
+      const routingTarget = document.getElementById("target-node").value;
+      if(!routingTarget) return alert("System Error: Route target required.");
+
+      // Setup proxy handlers maps pointing to your raw numerical cluster addresses
+      const config = {
+        prefix: '/service/',
+        bare: 'http://' + proxyGateway + '/bare/', 
+        encodeUrl: Ultraviolet.codec.xor.encode,
+        decodeUrl: Ultraviolet.codec.xor.decode,
+        handler: 'https://jsdelivr.net',
+        bundle: 'https://jsdelivr.net',
+        config: 'https://jsdelivr.net',
+        sw: 'https://jsdelivr.net'
+      };
+
+      console.log("Routing traffic payload through network gateway: " + proxyGateway);
+      window.location.href = config.prefix + config.encodeUrl(routingTarget);
+    }
+  </script>
+
+</body>
+</html>
